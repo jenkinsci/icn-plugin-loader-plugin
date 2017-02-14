@@ -11,7 +11,7 @@
   </properties>
 
   <artifactId>icn-plugin-loader</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>hpi</packaging>
   <name>IBM Content Navigator remote plug-in reloader</name>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/ICN+Plugin+Loader+Plugin</url>
@@ -125,7 +125,7 @@
     <connection>scm:git:git://github.com/gdelory/icn-plugin-loader.git</connection>
     <developerConnection>scm:git:git@github.com:gdelory/icn-plugin-loader.git</developerConnection>
     <url>https://github.com/gdelory/icn-plugin-loader</url>
-    <tag>HEAD</tag>
+    <tag>icn-plugin-loader-1.0</tag>
   </scm>
 
 </project>

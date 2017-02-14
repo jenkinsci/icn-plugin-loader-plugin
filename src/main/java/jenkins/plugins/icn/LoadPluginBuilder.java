@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
 
 import javax.servlet.ServletException;
 
@@ -136,6 +137,22 @@ public class LoadPluginBuilder extends Builder {
         }
     }
     
+    private String readOneLineHttp(PostMethod http, PrintStream log) throws IOException {
+        BufferedReader in = null;
+        String res = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(http.getResponseBodyAsStream(), Charset.defaultCharset()));
+            res = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace(log);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        return res;
+    }
+    
     /**
      * Log on against ICN, this will store the needed cookies and return the 
      * security token header. Both are needed for a successful authentication.
@@ -159,7 +176,11 @@ public class LoadPluginBuilder extends Builder {
         try {
             httpClient.executeMethod(httpPost);
             System.out.println(httpPost.getStatusLine());
-            json = new BufferedReader(new InputStreamReader(httpPost.getResponseBodyAsStream())).readLine();
+            json = readOneLineHttp(httpPost, log);
+            if (json == null) {
+                log.println("Empty response from the server while logging in.");
+                return null;
+            }
             // Unsecure the json if prefix is activated in servlet
             if (json.startsWith("{}&&")) {
                 json = json.substring(4);
@@ -215,7 +236,11 @@ public class LoadPluginBuilder extends Builder {
                 log.println("KO");
                 log.println(LOAD_URL + " returned " + httpPost.getStatusLine());
             } else {
-                json = new BufferedReader(new InputStreamReader(httpPost.getResponseBodyAsStream())).readLine();
+                json = readOneLineHttp(httpPost, log);
+                if (json == null) {
+                    log.println("Empty response from the server while reloading the plugin.");
+                    return null;
+                }
                 // Unsecure the json if prefix is activated in servlet
                 if (json.startsWith("{}&&")) {
                     json = json.substring(4);
@@ -285,7 +310,11 @@ public class LoadPluginBuilder extends Builder {
                 log.println("KO");
                 log.println(SAVE_URL + " returned " + httpPost.getStatusLine());
             } else {
-                json = new BufferedReader(new InputStreamReader(httpPost.getResponseBodyAsStream())).readLine();
+                json = readOneLineHttp(httpPost, log);
+                if (json == null) {
+                    log.println("Empty response from the server while saving the configuration.");
+                    return false;
+                }
                 // Unsecure the json if prefix is activated in servlet
                 if (json.startsWith("{}&&")) {
                     json = json.substring(4);

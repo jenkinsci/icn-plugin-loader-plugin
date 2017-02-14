@@ -122,9 +122,9 @@
   </build>
   
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/icn-plugin-loader.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/icn-plugin-loader.git</developerConnection>
-    <url>https://github.com/jenkinsci/icn-plugin-loader</url>
+    <connection>scm:git:git://github.com/jenkinsci/icn-plugin-loader-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/icn-plugin-loader-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/icn-plugin-loader-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
